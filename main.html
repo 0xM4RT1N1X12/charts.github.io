@@ -10,26 +10,45 @@
                 function loadWidget() {
                     var urlParams = new URLSearchParams(window.location.search);
                     var ca = urlParams.get('ca');
-                    if (typeof window.createMyWidget === 'function') {
-                        window.createMyWidget('price-chart-widget-container', {
-                            autoSize: true,
-                            chainId: 'solana',
-                            pairAddress: ca,
-                            defaultInterval: '30s',
-                            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone ?? 'Etc/UTC',
-                            theme: 'moralis',
-                            locale: 'en',
-                            backgroundColor: '#071321',
-                            gridColor: '#0d2035',
-                            textColor: '#68738D',
-                            candleUpColor: '#4CE666',
-                            candleDownColor: '#E64C4C',
-                            hideLeftToolbar: false,
-                            hideTopToolbar: false,
-                            hideBottomToolbar: false
-                        });
+                    var apiKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6ImUxNjNjNTBiLTUzNjktNGY5My1hMTgyLWY4ZGZmYzhjNzBmMiIsIm9yZ0lkIjoiNDI5NzY0IiwidXNlcklkIjoiNDQyMDcxIiwidHlwZUlkIjoiYTE0MTY0YjMtZTFmMS00ZTA1LWI0MGItMmEzYWU4ZDcwZDA2IiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3Mzg4MzAxNjAsImV4cCI6NDg5NDU5MDE2MH0.h_f4qQNenfO_dOO9MI4riXrCjq7d32YV0Ue_8rdS5cs'; // Add your API key here
+
+                    if (ca) {
+                        if (typeof window.createMyWidget === 'function') {
+                            window.createMyWidget('price-chart-widget-container', {
+                                autoSize: true,
+                                chainId: 'solana',
+                                pairAddress: ca,
+                                defaultInterval: '30s',
+                                timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone ?? 'Etc/UTC',
+                                theme: 'moralis',
+                                locale: 'en',
+                                backgroundColor: '#071321',
+                                gridColor: '#0d2035',
+                                textColor: '#68738D',
+                                candleUpColor: '#4CE666',
+                                candleDownColor: '#E64C4C',
+                                hideLeftToolbar: false,
+                                hideTopToolbar: false,
+                                hideBottomToolbar: false
+                            });
+                        } else {
+                            console.error('createMyWidget function is not defined.');
+                        }
+
+                        // Fetch chart data using the API key
+                        fetch(`https://solana-gateway.moralis.io/token/mainnet/pairs/${ca}/stats`, {
+                            method: 'GET',
+                            headers: {
+                                'x-api-key': apiKey
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data); // Use this data to generate the chart
+                        })
+                        .catch(error => console.error('Error fetching chart data:', error));
                     } else {
-                        console.error('createMyWidget function is not defined.');
+                        console.error('No pairAddress provided.');
                     }
                 }
 
