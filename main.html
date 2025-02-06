@@ -1,63 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Price Chart Widget</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Price Chart Widget</title>
 </head>
 <body>
-    <div id="price-chart-widget-container" style="width: 100%; height:100%">
-        <script type="text/javascript">
-          (function() {
-            function getUrlParameter(name) {
-                var query = window.location.search.substring(1);
-                var vars = query.split("&");
-                for (var i=0; i<vars.length; i++) {
-                    var pair = vars[i].split("=");
-                    if(pair[0] == name){return pair[1];}
-                }
-                return(false);
-            }
+  <div id="price-chart-widget-container" style="width: 100%; height:100%">
+    <script type="text/javascript">
+      (function() {
+        function loadWidget() {
+          if (typeof window.createMyWidget === 'function') {
+            window.createMyWidget('price-chart-widget-container', {
+              autoSize: true,
+              chainId: 'solana',
+              tokenAddress: '7LRBykJ96veGpUB6bgdatqsm7Ki68JHJ1ee8ogEspump',
+              defaultInterval: '1D',
+              timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone ?? 'Etc/UTC',
+              theme: 'moralis',
+              locale: 'en',
+              backgroundColor: '#071321',
+              gridColor: '#0d2035',
+              textColor: '#68738D',
+              candleUpColor: '#4CE666',
+              candleDownColor: '#E64C4C',
+              hideLeftToolbar: false,
+              hideTopToolbar: false,
+              hideBottomToolbar: false
+            });
+          } else {
+            console.error('createMyWidget function is not defined.');
+          }
+        }
 
-            function loadWidget() {
-              var tokenAddress = getUrlParameter('ca') || '7LRBykJ96veGpUB6bgdatqsm7Ki68JHJ1ee8ogEspump'; // Alapértelmezett érték, ha a 'ca' nincs megadva
-
-              if (typeof window.createMyWidget === 'function') {
-                window.createMyWidget('price-chart-widget-container', {
-                  autoSize: true,
-                  chainId: 'solana',
-                  tokenAddress: tokenAddress,
-                  defaultInterval: '1D',
-                  timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone ?? 'Etc/UTC',
-                  theme: 'moralis',
-                  locale: 'en',
-                  backgroundColor: '#071321',
-                  gridColor: '#0d2035',
-                  textColor: '#68738D',
-                  candleUpColor: '#4CE666',
-                  candleDownColor: '#E64C4C',
-                  hideLeftToolbar: false,
-                  hideTopToolbar: false,
-                  hideBottomToolbar: false
-                });
-              } else {
-                console.error('createMyWidget function is not defined.');
-              }
-            }
-
-            if (!document.getElementById('moralis-chart-widget')) {
-              var script = document.createElement('script');
-              script.id = 'moralis-chart-widget';
-              script.src = 'https://moralis.com/static/embed/chart.js';
-              script.type = 'text/javascript';
-              script.async = true;
-              script.onload = loadWidget;
-              document.body.appendChild(script);
-            } else {
-              loadWidget();
-            }
-          })();
-        </script>
-    </div>
+        if (!document.getElementById('moralis-chart-widget')) {
+          var script = document.createElement('script');
+          script.id = 'moralis-chart-widget';
+          script.src = 'https://moralis.com/static/embed/chart.js';
+          script.type = 'text/javascript';
+          script.async = true;
+          script.onload = loadWidget;
+          document.body.appendChild(script);
+        } else {
+          loadWidget();
+        }
+      })();
+    </script>
+  </div>
 </body>
 </html>
