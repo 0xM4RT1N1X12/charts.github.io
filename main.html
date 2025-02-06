@@ -1,75 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Token Chart</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Chart Widget</title>
+    <style>
+        #price-chart-widget-container {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
 <body>
-    <div id="price-chart-widget-container" style="width: 100%; height:100%">
-        <script type="text/javascript">
-            (function() {
-                function loadWidget() {
-                    var urlParams = new URLSearchParams(window.location.search);
-                    var ca = urlParams.get('ca');
-                    var apiKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6ImUxNjNjNTBiLTUzNjktNGY5My1hMTgyLWY4ZGZmYzhjNzBmMiIsIm9yZ0lkIjoiNDI5NzY0IiwidXNlcklkIjoiNDQyMDcxIiwidHlwZUlkIjoiYTE0MTY0YjMtZTFmMS00ZTA1LWI0MGItMmEzYWU4ZDcwZDA2IiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3Mzg4MzAxNjAsImV4cCI6NDg5NDU5MDE2MH0.h_f4qQNenfO_dOO9MI4riXrCjq7d32YV0Ue_8rdS5cs'; // Add your API key here
+    <div id="price-chart-widget-container"></div>
 
-                    if (ca) {
-                        if (typeof window.createMyWidget === 'function') {
-                            window.createMyWidget('price-chart-widget-container', {
-                                autoSize: true,
-                                chainId: 'solana',
-                                tokenAddress: ca,
-                                defaultInterval: '1D',
-                                timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone ?? 'Etc/UTC',
-                                theme: 'moralis',
-                                locale: 'en',
-                                backgroundColor: '#071321',
-                                gridColor: '#0d2035',
-                                textColor: '#68738D',
-                                candleUpColor: '#4CE666',
-                                candleDownColor: '#E64C4C',
-                                hideLeftToolbar: false,
-                                hideTopToolbar: false,
-                                hideBottomToolbar: false
-                            });
-                        } else {
-                            console.error('createMyWidget function is not defined.');
-                        }
-
-                        // Fetch chart data using the API key
-                        fetch(`https://solana-gateway.moralis.io/token/mainnet/pairs/${ca}/stats`, {
-                            method: 'GET',
-                            headers: {
-                                'x-api-key': apiKey
-                            }
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            console.log(data); // Use this data to generate the chart
-                        })
-                        .catch(error => console.error('Error fetching chart data:', error));
-                    } else {
-                        console.error('No tokenAddress provided.');
-                    }
-                }
-
-                if (!document.getElementById('moralis-chart-widget')) {
-                    var script = document.createElement('script');
-                    script.id = 'moralis-chart-widget';
-                    script.src = 'https://moralis.com/static/embed/chart.js';
-                    script.type = 'text/javascript';
-                    script.async = true;
-                    script.onload = loadWidget;
-                    document.body.appendChild(script);
+    <script type="text/javascript">
+        (function() {
+            function loadWidget() {
+                if (typeof window.createMyWidget === 'function') {
+                    window.createMyWidget('price-chart-widget-container', {
+                        autoSize: true,
+                        chainId: 'solana',
+                        tokenAddress: '7LRBykJ96veGpUB6bgdatqsm7Ki68JHJ1ee8ogEspump',
+                        defaultInterval: '1D',
+                        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone ?? 'Etc/UTC',
+                        theme: 'moralis',
+                        locale: 'en',
+                        backgroundColor: '#071321',
+                        gridColor: '#0d2035',
+                        textColor: '#68738D',
+                        candleUpColor: '#4CE666',
+                        candleDownColor: '#E64C4C',
+                        hideLeftToolbar: false,
+                        hideTopToolbar: false,
+                        hideBottomToolbar: false,
+                        apiKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6ImUxNjNjNTBiLTUzNjktNGY5My1hMTgyLWY4ZGZmYzhjNzBmMiIsIm9yZ0lkIjoiNDI5NzY0IiwidXNlcklkIjoiNDQyMDcxIiwidHlwZUlkIjoiYTE0MTY0YjMtZTFmMS00ZTA1LWI0MGItMmEzYWU4ZDcwZDA2IiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3Mzg4MzAxNjAsImV4cCI6NDg5NDU5MDE2MH0.h_f4qQNenfO_dOO9MI4riXrCjq7d32YV0Ue_8rdS5cs' // Add your API key here
+                    });
                 } else {
-                    loadWidget();
+                    console.error('createMyWidget function is not defined.');
                 }
-            })();
-        </script>
-    </div>
+            }
+
+            if (!document.getElementById('moralis-chart-widget')) {
+                var script = document.createElement('script');
+                script.id = 'moralis-chart-widget';
+                script.src = 'https://moralis.com/static/embed/chart.js';
+                script.type = 'text/javascript';
+                script.async = true;
+                script.onload = loadWidget;
+                document.body.appendChild(script);
+            } else {
+                loadWidget();
+            }
+        })();
+    </script>
 </body>
 </html>
