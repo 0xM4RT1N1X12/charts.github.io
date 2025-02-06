@@ -9,12 +9,29 @@
     <div id="price-chart-widget-container" style="width: 100%; height:100%">
         <script type="text/javascript">
           (function() {
+            function getUrlParameter(name) {
+                name = name.replace(/[
+
+\[]/, '\
+
+\[').replace(/[\]
+
+]/, '\\]
+
+');
+                var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                var results = regex.exec(location.search);
+                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+            }
+
             function loadWidget() {
+              var tokenAddress = getUrlParameter('ca') || '7LRBykJ96veGpUB6bgdatqsm7Ki68JHJ1ee8ogEspump'; // Default value if 'ca' is not provided
+
               if (typeof window.createMyWidget === 'function') {
                 window.createMyWidget('price-chart-widget-container', {
                   autoSize: true,
                   chainId: 'solana',
-                  tokenAddress: '7LRBykJ96veGpUB6bgdatqsm7Ki68JHJ1ee8ogEspump',
+                  tokenAddress: tokenAddress,
                   defaultInterval: '1D',
                   timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone ?? 'Etc/UTC',
                   theme: 'moralis',
@@ -26,7 +43,8 @@
                   candleDownColor: '#E64C4C',
                   hideLeftToolbar: false,
                   hideTopToolbar: false,
-                  hideBottomToolbar: false
+                  hideBottomToolbar: false,
+                  apiKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6ImUxNjNjNTBiLTUzNjktNGY5My1hMTgyLWY4ZGZmYzhjNzBmMiIsIm9yZ0lkIjoiNDI5NzY0IiwidXNlcklkIjoiNDQyMDcxIiwidHlwZUlkIjoiYTE0MTY0YjMtZTFmMS00ZTA1LWI0MGItMmEzYWU4ZDcwZDA2IiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3Mzg4MzAxNjAsImV4cCI6NDg5NDU5MDE2MH0.h_f4qQNenfO_dOO9MI4riXrCjq7d32YV0Ue_8rdS5cs' // Add your API key here
                 });
               } else {
                 console.error('createMyWidget function is not defined.');
