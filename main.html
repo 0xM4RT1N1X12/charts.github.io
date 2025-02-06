@@ -1,29 +1,22 @@
 
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  
   <title>Price Chart Widget</title>
 </head>
 <body>
-  <div id="price-chart-widget-container" style="width: 100%; height:100%">
+ <div id="price-chart-widget-container" style="width: 100%; height:100%">
     <script type="text/javascript">
       (function() {
         function loadWidget() {
           if (typeof window.createMyWidget === 'function') {
-          window.createMyWidget('price-chart-widget-container', {
-          autoSize: true,
+            window.createMyWidget('price-chart-widget-container', {
+              autoSize: true,
           chainId: 'solana',
           tokenAddress: '7LRBykJ96veGpUB6bgdatqsm7Ki68JHJ1ee8ogEspump',
-          defaultInterval: '1D',
+          defaultInterval: '1',
           timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone ?? 'Etc/UTC',
-          theme: 'moralis',
+          theme: 'dark',
           locale: 'en',
-          backgroundColor: '#071321',
-          gridColor: '#0d2035',
-          textColor: '#68738D',
-          candleUpColor: '#4CE666',
-          candleDownColor: '#E64C4C',
           hideLeftToolbar: false,
           hideTopToolbar: false,
           hideBottomToolbar: false
@@ -47,6 +40,7 @@
       })();
     </script>
   </div>
+
 
 </body>
 </html>
